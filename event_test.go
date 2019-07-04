@@ -28,13 +28,13 @@ func TestEvent(t *testing.T) {
 	}
 }
 
-func testEv(obj, value interface{}) {
-	obj.(*testing.T).Log("testEv:", value)
+func testEv(l ...interface{}) {
+	l[0].(*testing.T).Log("testEv:", l[1])
 	sum++
 }
 
-func testEv2(obj, value interface{}) {
-	obj.(*testing.T).Log("testEv2:", value)
+func testEv2(l ...interface{}) {
+	l[0].(*testing.T).Log("testEv2:", l[1])
 	sum++
 }
 
@@ -42,7 +42,7 @@ type stTest struct {
 	str string
 }
 
-func (s *stTest) testEv(obj, value interface{}) {
-	obj.(*testing.T).Log("sTtestEv:", s.str, value)
+func (s *stTest) testEv(l ...interface{}) {
+	l[0].(*testing.T).Log("sTtestEv:", s.str, l[1])
 	sum++
 }

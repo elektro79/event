@@ -1,6 +1,6 @@
 package event
 
-type Callback func(obj interface{}, data interface{})
+type Callback func(...interface{})
 
 type EventCb struct {
 	cb   Callback
@@ -21,7 +21,7 @@ func NewEvent() *Event {
 	return &Event{make(map[int]*eventL)}
 }
 
-func (e *Event) On(name int, cb func(interface{}, interface{})) *EventCb {
+func (e *Event) On(name int, cb Callback) *EventCb {
 	evs := &EventCb{cb, nil, nil, nil}
 	if evl, ok := e.evs[name]; ok == false {
 		evln := &eventL{evs, evs}
@@ -62,11 +62,11 @@ func (e *Event) Off(evs *EventCb) {
 	}
 }
 
-func (e *Event) Fire(name int, obj interface{}, value interface{}) {
+func (e *Event) Fire(name int, l ...interface{}) {
 	if evl, ok := e.evs[name]; ok == true {
 		evs := evl.first
 		for evs != nil {
-			evs.cb(obj, value)
+			evs.cb(l...)
 			evs = evs.next
 		}
 	}
